@@ -1,13 +1,40 @@
+import React from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import React from 'react'
-import { NotificationContainer } from 'react-notifications'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
+import MagicBellClient, { pushEventAggregator } from '@magicbell/core'
 
 const inter = Inter({ subsets: ['latin'] })
 
 class Home extends React.Component {
+  mbListener = null
+
+  componentDidMount() {
+    this.initMbListener()
+  }
+
+  componentWillUnmount() {
+    if (this.mbListener) {
+      this.mbListener.dispose()
+    }
+  }
+
+  initMbListener = async () => {
+    const client = await MagicBellClient.createInstance({
+      apiKey: process.env.MAGICBELL_API_KEY,
+      userEmail: process.env.MAGICBELL_USER_EMAIL,
+    })
+
+    this.mbListener = client.startRealTimeListener()
+
+    pushEventAggregator.on('notifications.new', (notification) => {
+      console.log(notification)
+      NotificationManager.info(notification?.content, notification?.title)
+    })
+  }
+
   render() {
     return (
       <>
