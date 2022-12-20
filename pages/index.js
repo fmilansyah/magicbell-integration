@@ -17,7 +17,7 @@ class Home extends React.Component {
 
   componentWillUnmount() {
     if (this.mbListener) {
-      this.mbListener.dispose()
+      this.mbListener()
     }
   }
 
@@ -30,7 +30,6 @@ class Home extends React.Component {
     this.mbListener = client.startRealTimeListener()
 
     pushEventAggregator.on('notifications.new', (notification) => {
-      console.log(notification)
       NotificationManager.info(notification?.content, notification?.title)
     })
   }
