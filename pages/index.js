@@ -12,7 +12,7 @@ class Home extends React.Component {
   mbListener = null
 
   componentDidMount() {
-    this.initMbListener()
+    // this.initMbListener()
   }
 
   componentWillUnmount() {
