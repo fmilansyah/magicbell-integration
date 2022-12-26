@@ -3,11 +3,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import { NotificationContainer } from 'react-notifications'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
+import { useMagicBellEvent } from '@magicbell/magicbell-react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 const Home = () => {
+  const showPushNotification = (notification) => NotificationManager.info(notification?.content, notification?.title)
+  useMagicBellEvent('notifications.new', showPushNotification)
   return (
     <>
       <Head>
