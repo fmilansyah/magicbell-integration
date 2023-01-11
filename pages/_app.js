@@ -1,4 +1,3 @@
-import '../styles/globals.css'
 import 'react-notifications/lib/notifications.css'
 import { MagicBellProvider } from '@magicbell/magicbell-react'
 
