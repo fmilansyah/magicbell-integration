@@ -9,13 +9,13 @@ import {
   Text,
   Container,
   Center,
-} from "@chakra-ui/react"
-import { FaTrash } from "react-icons/fa"
+} from '@chakra-ui/react'
+import { FaCheckDouble, FaCircle } from 'react-icons/fa'
 
 const Notification = ({ notification: data }) => {
-  const notification = useNotification(data);
+  const notification = useNotification(data)
   const handleMarkAsRead = () => {
-    notification.markAsRead();
+    notification.markAsRead()
   }
   return (
     <Box
@@ -23,22 +23,25 @@ const Notification = ({ notification: data }) => {
       borderWidth="1px"
     >
       <Heading as="h3" fontSize="xl">
-        {notification.title}{" "}
+        {notification.title}
         <Badge
-          color="red.500"
+          color="green.500"
+          cursor="pointer"
           bg="inherit"
           transition="0.2s"
           _hover={{
-            bg: "inherit",
-            transform: "scale(1.2)",
+            bg: 'inherit',
+            transform: 'scale(1.2)',
           }}
           float="right"
           size="xs"
           onClick={() => handleMarkAsRead()}
+          title="Mark As Read"
         >
-          <FaTrash />
+          <FaCheckDouble />
         </Badge>
       </Heading>
+      <Text fontSize="12px" color="#999">{notification.sentAt.fromNow()}</Text>
       <Text>{notification.content}</Text>
     </Box>
   )
