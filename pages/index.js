@@ -10,12 +10,16 @@ import {
   Container,
   Center,
 } from '@chakra-ui/react'
-import { FaCheckDouble, FaCircle } from 'react-icons/fa'
+import { FaCheck, FaCheckDouble, FaCircle } from 'react-icons/fa'
 
 const Notification = ({ notification: data }) => {
   const notification = useNotification(data)
-  const handleMarkAsRead = () => {
-    notification.markAsRead()
+  const handleToggleRead = () => {
+    if (notification.isRead) {
+      notification.markAsUnread()
+    } else {
+      notification.markAsRead()
+    }
   }
   return (
     <Box
@@ -23,9 +27,21 @@ const Notification = ({ notification: data }) => {
       borderWidth="1px"
     >
       <Heading as="h3" fontSize="xl">
+        {!notification.isRead && (
+          <Badge
+            color="red.500"
+            bg="inherit"
+            size="xs"
+            title="Unread"
+            float="left"
+            mt="7px"
+          >
+            <FaCircle />
+          </Badge>
+        )}
         {notification.title}
         <Badge
-          color="green.500"
+          color={notification.isRead ? 'red.500' : 'green.500'}
           cursor="pointer"
           bg="inherit"
           transition="0.2s"
@@ -35,10 +51,11 @@ const Notification = ({ notification: data }) => {
           }}
           float="right"
           size="xs"
-          onClick={() => handleMarkAsRead()}
-          title="Mark As Read"
+          onClick={() => handleToggleRead()}
+          title={notification.isRead ? 'Mark As Unread' : 'Mark As Read'}
+          mt="7px"
         >
-          <FaCheckDouble />
+          {notification.isRead ? <FaCheck /> : <FaCheckDouble />}
         </Badge>
       </Heading>
       <Text fontSize="12px" color="#999">{notification.sentAt.fromNow()}</Text>
